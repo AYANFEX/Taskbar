@@ -123,6 +123,12 @@ android {
     testOptions {
         unitTests {
             all {
+                jvmArgs '--add-opens=java.base/java.util=ALL-UNNAMED',
+                        '--add-opens=java.base/java.lang=ALL-UNNAMED',
+                        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+                        '--add-opens=java.base/java.text=ALL-UNNAMED',
+                        '--add-opens=java.base/java.util.concurrent=ALL-UNNAMED'
+
                 testLogging {
                     events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
 
