@@ -100,9 +100,9 @@ public class InvisibleActivityFreeform extends Activity {
         if(!proceedWithOnCreate)
             return;
 
-        // Detect outside touches, and pass them through to the underlying activity
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
+        // Keep focus within the freeform workspace to prevent background launcher from pulling forward
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
 
         U.registerReceiver(this, appearingReceiver,
                 ACTION_START_MENU_APPEARING,
@@ -135,6 +135,15 @@ public class InvisibleActivityFreeform extends Activity {
         }
 
         showTaskbar = true;
+    }
+
+    @Override
+    public boolean onTouchEvent(android.view.MotionEvent event) {
+        if(event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+            U.sendBroadcast(this, ACTION_HIDE_START_MENU);
+            U.sendBroadcast(this, ACTION_HIDE_DASHBOARD);
+        }
+        return super.onTouchEvent(event);
     }
 
     @TargetApi(Build.VERSION_CODES.N)
