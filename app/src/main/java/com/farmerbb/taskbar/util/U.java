@@ -419,7 +419,7 @@ public class U {
             freeformHackIntent.putExtra("check_multiwindow", true);
 
         if(canDrawOverlays(context))
-            startActivityLowerRight(context, freeformHackIntent);
+            startActivityMaximized(context, freeformHackIntent);
     }
 
     public static void stopFreeformHack(Context context) {
