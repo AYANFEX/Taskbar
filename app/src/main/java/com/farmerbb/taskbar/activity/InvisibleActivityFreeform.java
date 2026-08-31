@@ -226,7 +226,7 @@ public class InvisibleActivityFreeform extends Activity {
     protected void onStop() {
         super.onStop();
 
-        if(!finish)
+        if(!finish && !FreeformHackHelper.getInstance().isFreeformHackActive())
             FreeformHackHelper.getInstance().setInFreeformWorkspace(false);
 
         possiblyHideTaskbar();
@@ -254,7 +254,8 @@ public class InvisibleActivityFreeform extends Activity {
     private void possiblyHideTaskbar() {
         if(!doNotHide) {
             U.newHandler().postDelayed(() -> {
-                if(U.shouldCollapse(this, false)
+                if(!FreeformHackHelper.getInstance().isFreeformHackActive()
+                        && U.shouldCollapse(this, false)
                         && !LauncherHelper.getInstance().isOnHomeScreen(this)) {
                     U.sendBroadcast(this, ACTION_HIDE_TASKBAR);
                 } else {
